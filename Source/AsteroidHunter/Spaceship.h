@@ -3,31 +3,30 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "PlayerSpaceship.generated.h"
+#include "GameFramework/DefaultPawn.h"
+#include "Spaceship.generated.h"
+
 
 class UInputAction;
 struct FInputActionValue;
 
-UCLASS()
-class ASTEROIDHUNTER_API APlayerSpaceship : public APawn
+
+UCLASS(config = Game)
+class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 {
 	GENERATED_BODY()
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	class UInputMappingContext* InputMappingContext;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
 	UInputAction* MoveAction;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
 	UInputAction* ShootAction;
 
-	//ability actions
-
 public:
-	// Sets default values for this pawn's properties
-	APlayerSpaceship();
+	ASpaceship();
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,11 +34,10 @@ protected:
 
 	void Move(const FInputActionValue& InputValue);
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };
