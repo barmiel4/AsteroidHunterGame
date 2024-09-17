@@ -9,6 +9,8 @@
 ASpaceship::ASpaceship()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	bAddDefaultMovementBindings = false;
 }
 
 void ASpaceship::BeginPlay()
