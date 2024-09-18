@@ -34,6 +34,8 @@ protected:
 
 	void Move(const FInputActionValue& InputValue);
 
+	void MoveEnd(const FInputActionValue& InputValue);
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
