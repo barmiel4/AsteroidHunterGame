@@ -38,6 +38,10 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 
 	bool bIsShotgunEquipped = false;
 
+	//------------------------- shield perk -------------------------
+	bool bIsUsingShield = false;
+
+
 
 public:
 	ASpaceship();
@@ -52,31 +56,31 @@ protected:
 
 public:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
+	UPROPERTY(BlueprintReadOnly, Category = "Player Health")
 	float Health;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Health")
 	float MaxHealth;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Health")
 	float CritacalDamageThresholdPrecent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Misc")
+	UPROPERTY(BlueprintReadOnly)
 	int Score = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Score")
 	int ShieldCost;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shield Perk|Score")
+	UPROPERTY(BlueprintReadOnly, Category = "Shield Perk|Score")
 	int ShieldThreshold;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shield Perk|Integrity")
+	UPROPERTY(BlueprintReadOnly, Category = "Shield Perk|Integrity")
 	float ShieldIntegrity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Integrity")
 	float ShieldMaxIntegrity;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
+	UPROPERTY(BlueprintReadOnly, Category = "Shield Perk|Visuals")
 	FLinearColor ShieldDefaultColor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
@@ -85,10 +89,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
 	class UMaterialInterface* ShieldMaterial;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
+	UPROPERTY(BlueprintReadOnly, Category = "Shield Perk|Visuals")
 	class UMaterialInstanceDynamic* ShieldDynamicMaterialInstance;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
+	UPROPERTY(BlueprintReadOnly, Category = "Ultra Bolt Perk")
 	int UltraBoltThreshold;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
