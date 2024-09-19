@@ -2,6 +2,7 @@
 
 
 #include "Spaceship.h"
+
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -11,6 +12,10 @@
 
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInterface.h"
+
+#include "Components/StaticMeshComponent.h"
+
+#include "Particles/ParticleSystemComponent.h"
 
 
 #define PRINT(mess, mtime)  GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, TEXT(mess));
@@ -25,6 +30,12 @@ ASpaceship::ASpaceship()
 	PrimaryActorTick.bCanEverTick = true;
 
 	bAddDefaultMovementBindings = false;
+
+	ShieldMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Shield Mesh"));
+	ShieldMesh->SetVisibleFlag(false);
+
+	DamagedEffect = CreateDefaultSubobject< UParticleSystemComponent>(TEXT("Damaged Effect"));
+	DamagedEffect->bAutoActivate = false;
 }
 
 void ASpaceship::BeginPlay()
@@ -39,6 +50,8 @@ void ASpaceship::BeginPlay()
 			Subsystem->AddMappingContext(InputMappingContext, 0);
 		}
 	}
+
+	//initialize defaults
 }
 
 void ASpaceship::Move(const FInputActionValue& InputValue)

@@ -41,7 +41,13 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	//------------------------- shield perk -------------------------
 	bool bIsUsingShield = false;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Shield Perk|Visuals", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* ShieldMesh;
 
+	//------------------------- misc -------------------------
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Visuals", meta = (AllowPrivateAccess = "true"))
+	class UParticleSystemComponent* DamagedEffect;
+	
 
 public:
 	ASpaceship();
