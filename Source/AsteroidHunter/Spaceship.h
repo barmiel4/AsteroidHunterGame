@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/DefaultPawn.h"
+
 #include "Spaceship.generated.h"
 
 
@@ -25,9 +26,18 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
 	UInputAction* ShootAction;
 
+	//------------------------- input -------------------------
 	float AxisValue = 0.f;
 
 	FRotator Lean = FRotator(0.f, 0.f, 35.f);
+
+	//------------------------- weapons -------------------------
+	float RifleHeatLevel= 0.f;
+
+	float ShotgunHeatLevel = 0.f;
+
+	bool bIsShotgunEquipped = false;
+
 
 public:
 	ASpaceship();
@@ -41,6 +51,55 @@ protected:
 	void MoveEnd(const FInputActionValue& InputValue);
 
 public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
+	float Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
+	float MaxHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
+	float CritacalDamageThreshold;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Misc")
+	int Score = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Score")
+	int ShieldCost;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Score")
+	int ShieldThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Integrity")
+	float ShieldIntegrity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Integrity")
+	float ShieldMaxIntegrity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
+	FLinearColor ShieldDefaultColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
+	FLinearColor ShieldDamagedColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
+	class UMaterialInterface* ShieldMaterial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
+	class UMaterialInstanceDynamic* ShieldDynamicMaterialInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
+	int UltraBoltThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
+	int UltraBoltCost;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	float RifleHeatStep;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	float ShotgunHeatStep;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
