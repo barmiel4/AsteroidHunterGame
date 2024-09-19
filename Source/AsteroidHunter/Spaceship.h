@@ -52,14 +52,14 @@ protected:
 
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
 	float Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
 	float MaxHealth;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Misc|Health")
-	float CritacalDamageThreshold;
+	float CritacalDamageThresholdPrecent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Misc")
 	int Score = 0;
@@ -67,16 +67,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Score")
 	int ShieldCost;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Score")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shield Perk|Score")
 	int ShieldThreshold;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Integrity")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shield Perk|Integrity")
 	float ShieldIntegrity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Integrity")
 	float ShieldMaxIntegrity;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
 	FLinearColor ShieldDefaultColor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
@@ -85,10 +85,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
 	class UMaterialInterface* ShieldMaterial;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shield Perk|Visuals")
 	class UMaterialInstanceDynamic* ShieldDynamicMaterialInstance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
 	int UltraBoltThreshold;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
@@ -98,7 +98,13 @@ public:
 	float RifleHeatStep;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	float MaxRifleHeat;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
 	float ShotgunHeatStep;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	float MaxShotgunHeat;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

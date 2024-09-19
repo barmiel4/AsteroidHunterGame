@@ -38,7 +38,6 @@ void ASpaceship::BeginPlay()
 		{
 			Subsystem->AddMappingContext(InputMappingContext, 0);
 		}
-
 	}
 }
 
