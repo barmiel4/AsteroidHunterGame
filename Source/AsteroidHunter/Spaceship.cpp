@@ -41,29 +41,23 @@ void ASpaceship::BeginPlay()
 
 void ASpaceship::Move(const FInputActionValue& InputValue)
 {
-	float AxisValue = InputValue.Get<float>();
-
-	PRINT_F("axis value %f", AxisValue, 4);
+	AxisValue = InputValue.Get<float>();
 
 	AddMovementInput(GetActorRightVector(), AxisValue);
-
-	auto Mesh = GetMeshComponent();
-	FRotator Lean(0.f, 0.f, 30.f);
-	Mesh->SetWorldRotation(UKismetMathLibrary::RInterpTo(Mesh->GetComponentRotation(), Lean * AxisValue, GetWorld()->GetDeltaSeconds(), 10));
 }
 
 void ASpaceship::MoveEnd(const FInputActionValue& InputValue)
 {
-	auto Mesh = GetMeshComponent();
-	//Mesh->SetWorldRotation(UKismetMathLibrary::RInterpTo(Mesh->GetComponentRotation(), FRotator(0.f), GetWorld()->GetDeltaSeconds(), 5));
-
-	Mesh->SetWorldRotation(FRotator(0.f));
+	AxisValue = 0.f;
 }
 
 void ASpaceship::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	auto Mesh = GetMeshComponent();
+	float InterpSpeed = AxisValue == 0.f ? 5.5f : 10.f;
+	Mesh->SetWorldRotation(UKismetMathLibrary::RInterpTo(Mesh->GetComponentRotation(), Lean * AxisValue, GetWorld()->GetDeltaSeconds(), InterpSpeed));
 }
 
 void ASpaceship::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

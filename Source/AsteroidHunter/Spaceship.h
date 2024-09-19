@@ -25,6 +25,10 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
 	UInputAction* ShootAction;
 
+	float AxisValue = 0.f;
+
+	FRotator Lean = FRotator(0.f, 0.f, 35.f);
+
 public:
 	ASpaceship();
 
