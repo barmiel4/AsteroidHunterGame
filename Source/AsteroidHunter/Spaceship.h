@@ -32,6 +32,9 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
 	UInputAction* RightAbilityAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
+	UInputAction* WeaponChangeAction;
+
 	//------------------------- input -------------------------
 	float AxisValue = 0.f;
 
@@ -62,6 +65,16 @@ protected:
 	void Move(const FInputActionValue& InputValue);
 
 	void MoveEnd(const FInputActionValue& InputValue);
+
+	void Shoot();
+
+	void UseShield();
+
+	void UseUltraBolt();
+
+	void ChangeWeapon();
+
+	void HandleCollisionWithShield();
 
 public:
 
@@ -124,6 +137,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon Overheating")
 	float ShotgunHeatLevel = 0.f;
+
+	UFUNCTION()
+	void CollisionReaction(const FVector& AsteroidLocation);
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

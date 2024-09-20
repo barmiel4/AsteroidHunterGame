@@ -17,6 +17,9 @@
 
 #include "Particles/ParticleSystemComponent.h"
 
+#include "Components/SceneComponent.h"
+#include "Components/SphereComponent.h"
+
 
 #define PRINT(mess, mtime)  GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, TEXT(mess));
 #define PRINTC(mess, color)  GEngine->AddOnScreenDebugMessage(-1, 5, color, TEXT(mess));
@@ -32,9 +35,11 @@ ASpaceship::ASpaceship()
 	bAddDefaultMovementBindings = false;
 
 	ShieldMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Shield Mesh"));
-	ShieldMesh->SetVisibleFlag(false);
+	ShieldMesh->SetupAttachment(Cast<USceneComponent>(GetCollisionComponent()));
+	ShieldMesh->SetVisibility(false);
 
 	DamagedEffect = CreateDefaultSubobject< UParticleSystemComponent>(TEXT("Damaged Effect"));
+	DamagedEffect->SetupAttachment(Cast<USceneComponent>(GetCollisionComponent()));
 	DamagedEffect->bAutoActivate = false;
 }
 
@@ -59,7 +64,7 @@ void ASpaceship::BeginPlay()
 
 	ShieldDynamicMaterialInstance = ShieldMesh->CreateDynamicMaterialInstance(0);
 
-	PRINTC("check if CreateDynamicMaterialInstance doesnt take material as input", FColor::Red);
+	PRINTC("check if CreateDynamicMaterialInstance doesnt take material as input", FColor::White);
 	
 	ShieldDynamicMaterialInstance->GetVectorParameterValue(FName("Color"), ShieldDefaultColor);
 	ShieldMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -79,6 +84,44 @@ void ASpaceship::MoveEnd(const FInputActionValue& InputValue)
 	AxisValue = 0.f;
 }
 
+void ASpaceship::Shoot()
+{
+	PRINT("shoot", 3);
+}
+
+void ASpaceship::UseShield()
+{
+	if (bIsUsingShield || Score < ShieldThreshold)
+		return;
+
+	PRINT("shield", 3);
+	
+	ShieldMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	ShieldMesh->SetVisibility(true);
+
+	bIsUsingShield = true;
+}
+
+void ASpaceship::UseUltraBolt()
+{
+	if (Score < UltraBoltThreshold)
+		return;
+
+	PRINT("SPAWN ULTRA BOLT!!", 3);
+
+	UltraBoltThreshold = Score + UltraBoltCost;
+}
+
+void ASpaceship::ChangeWeapon()
+{
+	PRINT("changing weapon", 3);
+}
+
+void ASpaceship::HandleCollisionWithShield()
+{
+
+}
+
 void ASpaceship::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -94,7 +137,23 @@ void ASpaceship::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	if (UEnhancedInputComponent* EnhancedInputComp = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
+		//movement
 		EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ASpaceship::Move);
 		EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Completed, this, &ASpaceship::MoveEnd);
+
+		//shooting
+		EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Started, this, &ASpaceship::Shoot);
+
+		//perks
+		EnhancedInputComp->BindAction(LeftAbilityAction, ETriggerEvent::Started, this, &ASpaceship::UseShield);
+		EnhancedInputComp->BindAction(RightAbilityAction, ETriggerEvent::Started, this, &ASpaceship::UseUltraBolt);
+
+		//changing weapon
+		EnhancedInputComp->BindAction(WeaponChangeAction, ETriggerEvent::Started, this, &ASpaceship::ChangeWeapon);
 	}
+}
+
+void ASpaceship::CollisionReaction(const FVector& AsteroidLocation)
+{
+	PRINTC("ASpaceship::CollisionReaction IS NOT YET IMPLEMENTED!!", FColor::White);
 }
