@@ -119,7 +119,21 @@ void ASpaceship::ChangeWeapon()
 
 void ASpaceship::HandleCollisionWithShield()
 {
+	if (--ShieldIntegrity <= 0)
+	{
+		ShieldMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		ShieldMesh->SetVisibility(false);
 
+		ShieldIntegrity = ShieldMaxIntegrity;
+
+		bIsUsingShield = false;
+
+		ShieldThreshold = Score + ShieldCost;
+	}
+
+	float LerpAlpha = (ShieldIntegrity - 1) / ShieldMaxIntegrity;
+	FLinearColor ShieldColor = UKismetMathLibrary::LinearColorLerp(ShieldDamagedColor, ShieldDefaultColor, LerpAlpha);
+	ShieldDynamicMaterialInstance->SetVectorParameterValue(FName("Color"), ShieldColor);
 }
 
 void ASpaceship::Tick(float DeltaTime)
