@@ -19,7 +19,7 @@
 
 
 #define PRINT(mess, mtime)  GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, TEXT(mess));
-#define PRINTC(mess, color)  GEngine->AddOnScreenDebugMessage(-1, 3, color, TEXT(mess));
+#define PRINTC(mess, color)  GEngine->AddOnScreenDebugMessage(-1, 5, color, TEXT(mess));
 #define PRINT_F(prompt, mess, mtime) GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, FString::Printf(TEXT(prompt), mess));
 #define PRINTC_F(prompt, mess, mtime, color) GEngine->AddOnScreenDebugMessage(-1, mtime, color, FString::Printf(TEXT(prompt), mess));
 #define PRINT_B(prompt, mess) GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Green, FString::Printf(TEXT(prompt), mess ? TEXT("TRUE") : TEXT("FALSE")));
@@ -52,7 +52,19 @@ void ASpaceship::BeginPlay()
 	}
 
 	//initialize defaults
+	Health = MaxHealth;
 
+	ShieldThreshold = ShieldCost;
+	ShieldIntegrity = ShieldMaxIntegrity;
+
+	ShieldDynamicMaterialInstance = ShieldMesh->CreateDynamicMaterialInstance(0);
+
+	PRINTC("check if CreateDynamicMaterialInstance doesnt take material as input", FColor::Red);
+	
+	ShieldDynamicMaterialInstance->GetVectorParameterValue(FName("Color"), ShieldDefaultColor);
+	ShieldMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	UltraBoltThreshold = UltraBoltCost;
 }
 
 void ASpaceship::Move(const FInputActionValue& InputValue)

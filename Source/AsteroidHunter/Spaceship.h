@@ -26,15 +26,18 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
 	UInputAction* ShootAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
+	UInputAction* LeftAbilityAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Actions", meta = (AllowPrivateAccess = "true"))
+	UInputAction* RightAbilityAction;
+
 	//------------------------- input -------------------------
 	float AxisValue = 0.f;
 
 	FRotator Lean = FRotator(0.f, 0.f, 35.f);
 
 	//------------------------- weapons -------------------------
-	float RifleHeatLevel= 0.f;
-
-	float ShotgunHeatLevel = 0.f;
 
 	bool bIsShotgunEquipped = false;
 
@@ -115,6 +118,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
 	float MaxShotgunHeat;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon Overheating")
+	float RifleHeatLevel = 0.f;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon Overheating")
+	float ShotgunHeatLevel = 0.f;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
