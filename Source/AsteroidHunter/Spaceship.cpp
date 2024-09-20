@@ -52,6 +52,7 @@ void ASpaceship::BeginPlay()
 	}
 
 	//initialize defaults
+
 }
 
 void ASpaceship::Move(const FInputActionValue& InputValue)
