@@ -12,6 +12,9 @@ class UInputAction;
 struct FInputActionValue;
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWeaponChanged, bool, bChangeToShotgun);
+
+
 UCLASS(config = Game)
 class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 {
@@ -76,6 +79,12 @@ protected:
 
 	void HandleCollisionWithShield();
 
+	void UseRifle();
+
+	void UseShotgun();
+
+	void DecreaseHeat();
+
 public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Player Health")
@@ -124,10 +133,16 @@ public:
 	float RifleHeatStep;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	float RifleOverheatThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
 	float MaxRifleHeat;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
 	float ShotgunHeatStep;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	float ShotgunOverheatThreshold;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
 	float MaxShotgunHeat;
@@ -137,6 +152,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon Overheating")
 	float ShotgunHeatLevel = 0.f;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnWeaponChanged OnWeaponChanged;
 
 	UFUNCTION()
 	void CollisionReaction(const FVector& AsteroidLocation);

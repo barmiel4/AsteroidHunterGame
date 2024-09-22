@@ -64,7 +64,7 @@ void ASpaceship::BeginPlay()
 
 	ShieldDynamicMaterialInstance = ShieldMesh->CreateDynamicMaterialInstance(0);
 
-	PRINTC("check if CreateDynamicMaterialInstance doesnt take material as input", FColor::White);
+	PRINTC("CreateDynamicMaterialInstance doesnt take material as input -> may cause problems", FColor::White);
 	
 	ShieldDynamicMaterialInstance->GetVectorParameterValue(FName("Color"), ShieldDefaultColor);
 	ShieldMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -87,6 +87,12 @@ void ASpaceship::MoveEnd(const FInputActionValue& InputValue)
 void ASpaceship::Shoot()
 {
 	PRINT("shoot", 3);
+
+	if (bIsShotgunEquipped)
+		UseShotgun();
+	else
+		UseRifle();
+
 }
 
 void ASpaceship::UseShield()
@@ -114,7 +120,9 @@ void ASpaceship::UseUltraBolt()
 
 void ASpaceship::ChangeWeapon()
 {
-	PRINT("changing weapon", 3);
+	bIsShotgunEquipped = !bIsShotgunEquipped;
+
+	OnWeaponChanged.Broadcast(bIsShotgunEquipped);
 }
 
 void ASpaceship::HandleCollisionWithShield()
@@ -136,6 +144,45 @@ void ASpaceship::HandleCollisionWithShield()
 	ShieldDynamicMaterialInstance->SetVectorParameterValue(FName("Color"), ShieldColor);
 }
 
+void ASpaceship::UseRifle()
+{
+	if (RifleHeatLevel >= RifleOverheatThreshold)
+		return;
+
+	RifleHeatLevel += RifleHeatStep;
+
+
+	PRINT("SPAWN RIFLE BOLT HERE!", 3);
+}
+
+void ASpaceship::UseShotgun()
+{
+	if (ShotgunHeatLevel >= ShotgunOverheatThreshold)
+		return;
+
+	ShotgunHeatLevel += ShotgunHeatStep;
+
+	for (int BoltDir = -2; BoltDir <= 2; ++BoltDir)
+	{
+		FTransform BoltTransform(
+			FRotator(0.f, 0.f, BoltDir * 20),
+			GetActorLocation()
+		);
+
+
+	}
+
+	PRINT("SPAWN SHOTGUN BOLTS HERE!", 3);
+
+}
+
+void ASpaceship::DecreaseHeat()
+{
+	RifleHeatLevel = UKismetMathLibrary::FInterpTo(RifleHeatLevel, 0, GetWorld()->GetDeltaSeconds(), .3f);
+
+	ShotgunHeatLevel = UKismetMathLibrary::FInterpTo(ShotgunHeatLevel, 0, GetWorld()->GetDeltaSeconds(), .1f);
+}
+
 void ASpaceship::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -143,6 +190,11 @@ void ASpaceship::Tick(float DeltaTime)
 	auto Mesh = GetMeshComponent();
 	float InterpSpeed = AxisValue == 0.f ? 5.5f : 10.f;
 	Mesh->SetWorldRotation(UKismetMathLibrary::RInterpTo(Mesh->GetComponentRotation(), Lean * AxisValue, GetWorld()->GetDeltaSeconds(), InterpSpeed));
+
+	/*PRINT_F("Rifle heat = %f", RifleHeatLevel, 0);
+	PRINT_F("Shotgun heat = %f", ShotgunHeatLevel, 0);*/
+
+	DecreaseHeat();
 }
 
 void ASpaceship::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
