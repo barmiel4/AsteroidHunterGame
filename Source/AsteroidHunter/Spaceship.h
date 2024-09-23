@@ -129,22 +129,28 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
 	int UltraBoltCost;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Rifle")
+	TSubclassOf<class ABaseBolt> RifleBoltClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Rifle|Overheating")
 	float RifleHeatStep;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Rifle|Overheating")
 	float RifleOverheatThreshold;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Rifle|Overheating")
 	float MaxRifleHeat;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Shotgun")
+	TSubclassOf<class ABaseBolt> ShotgunBoltClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Shotgun|Overheating")
 	float ShotgunHeatStep;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Shotgun|Overheating")
 	float ShotgunOverheatThreshold;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Overheating")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Shotgun|Overheating")
 	float MaxShotgunHeat;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon Overheating")

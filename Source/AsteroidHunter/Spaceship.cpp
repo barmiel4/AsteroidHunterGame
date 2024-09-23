@@ -20,6 +20,8 @@
 #include "Components/SceneComponent.h"
 #include "Components/SphereComponent.h"
 
+#include "BaseBolt.h"
+
 
 #define PRINT(mess, mtime)  GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, TEXT(mess));
 #define PRINTC(mess, color)  GEngine->AddOnScreenDebugMessage(-1, 5, color, TEXT(mess));
@@ -151,6 +153,11 @@ void ASpaceship::UseRifle()
 
 	RifleHeatLevel += RifleHeatStep;
 
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.TransformScaleMethod = ESpawnActorScaleMethod::OverrideRootScale;
+
+	GetWorld()->SpawnActor<ABaseBolt>(RifleBoltClass, FTransform(GetActorLocation()), SpawnParams);
 
 	PRINT("SPAWN RIFLE BOLT HERE!", 3);
 }
@@ -165,11 +172,15 @@ void ASpaceship::UseShotgun()
 	for (int BoltDir = -2; BoltDir <= 2; ++BoltDir)
 	{
 		FTransform BoltTransform(
-			FRotator(0.f, 0.f, BoltDir * 20),
+			FRotator(0.f, BoltDir * 20, 0.f),
 			GetActorLocation()
 		);
 
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.TransformScaleMethod = ESpawnActorScaleMethod::OverrideRootScale;
 
+		GetWorld()->SpawnActor<ABaseBolt>(ShotgunBoltClass, BoltTransform, SpawnParams);
 	}
 
 	PRINT("SPAWN SHOTGUN BOLTS HERE!", 3);
