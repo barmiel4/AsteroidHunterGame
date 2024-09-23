@@ -23,6 +23,7 @@ ABaseBolt::ABaseBolt()
 	
 	BoltMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BoltMesh"));
 	BoltMesh->SetupAttachment(Root);
+	BoltMesh->SetCollisionProfileName(TEXT("Bolt"));
 }
 
 // Called when the game starts or when spawned

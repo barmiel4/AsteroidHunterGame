@@ -88,13 +88,10 @@ void ASpaceship::MoveEnd(const FInputActionValue& InputValue)
 
 void ASpaceship::Shoot()
 {
-	PRINT("shoot", 3);
-
 	if (bIsShotgunEquipped)
 		UseShotgun();
 	else
 		UseRifle();
-
 }
 
 void ASpaceship::UseShield()
@@ -158,8 +155,6 @@ void ASpaceship::UseRifle()
 	SpawnParams.TransformScaleMethod = ESpawnActorScaleMethod::OverrideRootScale;
 
 	GetWorld()->SpawnActor<ABaseBolt>(RifleBoltClass, FTransform(GetActorLocation()), SpawnParams);
-
-	PRINT("SPAWN RIFLE BOLT HERE!", 3);
 }
 
 void ASpaceship::UseShotgun()
@@ -182,9 +177,6 @@ void ASpaceship::UseShotgun()
 
 		GetWorld()->SpawnActor<ABaseBolt>(ShotgunBoltClass, BoltTransform, SpawnParams);
 	}
-
-	PRINT("SPAWN SHOTGUN BOLTS HERE!", 3);
-
 }
 
 void ASpaceship::DecreaseHeat()
