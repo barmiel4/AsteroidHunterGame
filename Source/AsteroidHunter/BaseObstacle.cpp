@@ -26,7 +26,7 @@ ABaseObstacle::ABaseObstacle()
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 
 	RotatingMovement = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotatingMovementComponent"));
-	RotatingMovement->RotationRate = FRotator(0.f, 180.f, 0.f);
+	//RotatingMovement->RotationRate = FRotator(0.f, 180.f, 0.f);
 }
 
 // Called when the game starts or when spawned
@@ -39,7 +39,17 @@ void ABaseObstacle::BeginPlay()
 	ProjectileMovement->Velocity = ProjectileMovement->InitialSpeed * ProjectileMovement->InitialSpeed;*/
 	
 	Speed = UKismetMathLibrary::RandomFloatInRange(300.f, 700.f);
-	
+
+	float MinScale = .7f;
+	float MaxScale = 1.5f;
+	FVector Scale(
+		UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale),
+		UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale),
+		UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale));
+
+	SetActorScale3D(Scale);
+
+	RotatingMovement->RotationRate = UKismetMathLibrary::RandomRotator();
 }
 
 // Called every frame

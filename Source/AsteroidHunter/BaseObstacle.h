@@ -14,20 +14,21 @@ class ASTEROIDHUNTER_API ABaseObstacle : public AActor
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	class USphereComponent* CollisionComponent;
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class UProjectileMovementComponent* ProjectileMovement;
-	
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class URotatingMovementComponent* RotatingMovement;
-
-	//UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	float Speed;
 
 public:	
 	// Sets default values for this actor's properties
 	ABaseObstacle();
 
 protected:
+	UPROPERTY(EditAnywhere)
+	class UProjectileMovementComponent* ProjectileMovement;
+
+	UPROPERTY(EditAnywhere)
+	class URotatingMovementComponent* RotatingMovement;
+
+	//UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	float Speed;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
