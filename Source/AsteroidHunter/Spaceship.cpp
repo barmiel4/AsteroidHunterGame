@@ -36,12 +36,15 @@ ASpaceship::ASpaceship()
 
 	bAddDefaultMovementBindings = false;
 
+	GetMeshComponent()->SetCollisionProfileName(TEXT("NoCollision"));
+
 	ShieldMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Shield Mesh"));
-	ShieldMesh->SetupAttachment(Cast<USceneComponent>(GetCollisionComponent()));
+	ShieldMesh->SetupAttachment(RootComponent);
 	ShieldMesh->SetVisibility(false);
+	ShieldMesh->SetCollisionProfileName(TEXT("Shield"));
 
 	DamagedEffect = CreateDefaultSubobject< UParticleSystemComponent>(TEXT("Damaged Effect"));
-	DamagedEffect->SetupAttachment(Cast<USceneComponent>(GetCollisionComponent()));
+	DamagedEffect->SetupAttachment(RootComponent);
 	DamagedEffect->bAutoActivate = false;
 }
 
