@@ -21,6 +21,8 @@
 #include "Components/SphereComponent.h"
 
 #include "BaseBolt.h"
+#include "UltraBolt.h"
+
 
 
 #define PRINT(mess, mtime)  GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, TEXT(mess));
@@ -116,6 +118,12 @@ void ASpaceship::UseUltraBolt()
 		return;
 
 	PRINT("SPAWN ULTRA BOLT!!", 3);
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.TransformScaleMethod = ESpawnActorScaleMethod::OverrideRootScale;
+
+	GetWorld()->SpawnActor<AUltraBolt>(UltraBoltClass, GetActorTransform(), SpawnParams);
 
 	UltraBoltThreshold = Score + UltraBoltCost;
 }

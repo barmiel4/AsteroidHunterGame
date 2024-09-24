@@ -129,6 +129,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
 	int UltraBoltCost;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ultra Bolt Perk")
+	TSubclassOf<class AUltraBolt> UltraBoltClass;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Rifle")
 	TSubclassOf<class ABaseBolt> RifleBoltClass;
 
