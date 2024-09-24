@@ -40,14 +40,15 @@ void ABaseObstacle::BeginPlay()
 	
 	//Speed = UKismetMathLibrary::RandomFloatInRange(300.f, 700.f);
 
-	float MinScale = .7f;
-	float MaxScale = 1.5f;
-	FVector Scale(
-		UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale),
-		UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale),
-		UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale));
+	if (OverrideDefaultScale)
+	{
+		FVector Scale(
+			UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale),
+			UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale),
+			UKismetMathLibrary::RandomFloatInRange(MinScale, MaxScale));
 
-	SetActorScale3D(Scale);
+		SetActorScale3D(Scale);
+	}
 
 	RotatingMovement->RotationRate = UKismetMathLibrary::RandomRotator();
 }

@@ -25,6 +25,15 @@ protected:
 	UPROPERTY(EditAnywhere)
 	class URotatingMovementComponent* RotatingMovement;
 
+	UPROPERTY(EditAnywhere)
+	bool OverrideDefaultScale = true;
+
+	UPROPERTY(EditAnywhere, meta = (EditCondition = "OverrideDefaultScale"))
+	float MinScale = .7f;
+
+	UPROPERTY(EditAnywhere, meta = (EditCondition = "OverrideDefaultScale"))
+	float MaxScale = 1.5f;
+
 	//UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	float Speed;
 
