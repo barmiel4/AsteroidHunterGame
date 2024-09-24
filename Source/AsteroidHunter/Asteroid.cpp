@@ -8,25 +8,61 @@
 #include "Field/FieldSystemComponent.h"
 #include "Field/FieldSystemObjects.h"
 
+#include "Components/SphereComponent.h"
+
+#include "GameFramework/ProjectileMovementComponent.h"
+
+#include "GameFramework/RotatingMovementComponent.h"
+
 
 AAsteroid::AAsteroid()
 {
 	DestructibleAsteroid = CreateDefaultSubobject<UGeometryCollectionComponent>(TEXT("DestructibleAsteroid"));
+	DestructibleAsteroid->SetSimulatePhysics(false);
 	DestructibleAsteroid->SetupAttachment(RootComponent);
 
 	Exploder = CreateDefaultSubobject<UFieldSystemComponent>(TEXT("Exploder"));
 	Exploder->SetupAttachment(RootComponent);
+
+	RadialFalloff = CreateDefaultSubobject<URadialFalloff>(TEXT("RadialFalloff"));
+
+	RadialVector = CreateDefaultSubobject<URadialVector>(TEXT("RadialVector"));
+
+	CullingField = CreateDefaultSubobject<UCullingField>(TEXT("CullingField"));
+
+	CollisionComponent->SetCollisionProfileName("Asteroid");
+	CollisionComponent->SetSphereRadius(65.f);
 }
 
 void AAsteroid::BeginPlay()
 {
+	Super::BeginPlay();
 
 }
 
 void AAsteroid::HandleCollision(AActor* HitActor)
 {
-	//ProjectileMovement
+	ProjectileMovement->Deactivate();
 
+	DestructibleAsteroid->SetSimulatePhysics(true);
 
-	// GetWorld()->GetTimerManager().SetTimer(DestroyTimer, this, &AActor::Destroy, LifeTime);
+	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	GetWorld()->GetTimerManager().SetTimer(DestroyTimer, this, &AAsteroid::Destroy, LifeTime, false);
+
+	auto HitDirection = GetActorLocation();
+	HitDirection -= HitActor ? HitActor->GetActorLocation() : HitLocationCache;
+	HitDirection.Normalize();
+
+	TriggerChaosExplosion(HitDirection);
+}
+
+void AAsteroid::TriggerChaosExplosion(const FVector& HitDirection)
+{
+
+}
+
+void AAsteroid::Destroy()
+{
+	AActor::Destroy();
 }

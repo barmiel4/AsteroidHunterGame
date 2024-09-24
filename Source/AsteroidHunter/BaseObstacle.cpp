@@ -15,7 +15,7 @@
 // Sets default values
 ABaseObstacle::ABaseObstacle()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
@@ -34,11 +34,11 @@ void ABaseObstacle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*ProjectileMovement->InitialSpeed = ProjectileMovement->MaxSpeed = UKismetMathLibrary::RandomFloatInRange(300.f, 700.f);
+	ProjectileMovement->InitialSpeed = ProjectileMovement->MaxSpeed = UKismetMathLibrary::RandomFloatInRange(300.f, 700.f);
 
-	ProjectileMovement->Velocity = ProjectileMovement->InitialSpeed * ProjectileMovement->InitialSpeed;*/
+	ProjectileMovement->Velocity = ProjectileMovement->InitialSpeed * -GetActorForwardVector();
 	
-	Speed = UKismetMathLibrary::RandomFloatInRange(300.f, 700.f);
+	//Speed = UKismetMathLibrary::RandomFloatInRange(300.f, 700.f);
 
 	float MinScale = .7f;
 	float MaxScale = 1.5f;
@@ -57,6 +57,6 @@ void ABaseObstacle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	AddActorWorldOffset(FVector(-1, 0, 0) * Speed * GetWorld()->GetDeltaSeconds());
+	//AddActorWorldOffset(FVector(-1, 0, 0) * Speed * GetWorld()->GetDeltaSeconds());
 }
 

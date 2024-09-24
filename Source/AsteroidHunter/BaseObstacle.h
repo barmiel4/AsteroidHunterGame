@@ -11,15 +11,14 @@ class ASTEROIDHUNTER_API ABaseObstacle : public AActor
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class USphereComponent* CollisionComponent;
-
-
 public:	
 	// Sets default values for this actor's properties
 	ABaseObstacle();
 
 protected:
+	UPROPERTY(EditAnywhere)
+	class USphereComponent* CollisionComponent;
+
 	UPROPERTY(EditAnywhere)
 	class UProjectileMovementComponent* ProjectileMovement;
 

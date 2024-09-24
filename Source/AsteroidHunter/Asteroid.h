@@ -22,7 +22,7 @@ class ASTEROIDHUNTER_API AAsteroid : public ABaseObstacle
 	class UFieldSystemComponent* Exploder;
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class URadialFalloff* RadialFallof;
+	class URadialFalloff* RadialFalloff;
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	class URadialVector* RadialVector;
@@ -42,6 +42,11 @@ class ASTEROIDHUNTER_API AAsteroid : public ABaseObstacle
 	FVector HitLocationCache;
 
 	void HandleCollision(AActor* HitActor);
+
+	void TriggerChaosExplosion(const FVector& HitDirection);
+
+	UFUNCTION()
+	void Destroy();
 
 public:
 	AAsteroid();
