@@ -30,9 +30,11 @@ class ASTEROIDHUNTER_API AExplosiveMine : public AActor
 	UPROPERTY(EditAnywhere, Category = Visuals, meta = (AllowPrivateAccess = "true"))
 	FLinearColor GlowColorMax;
 
-	/*float RandomDistance;
+	float RandomDistance;
 
-	FVector Start;*/
+	FVector Start;
+
+	FVector BumpInterpolated = FVector(0.f);
 
 	FTimeline MinesSpawnTimeline;
 	
@@ -57,5 +59,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void TimelineMineDistribution(float Value);
+	void TimelineMineDistributionZOffset(float Value);
+
+	UFUNCTION()
+	void TimelineMineDistributionLocation(float Value);
 };
