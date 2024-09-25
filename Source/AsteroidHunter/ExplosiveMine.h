@@ -4,7 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
+#include "Components/TimelineComponent.h"
+
 #include "ExplosiveMine.generated.h"
+
+
+class UCurveFloat;
+
 
 UCLASS()
 class ASTEROIDHUNTER_API AExplosiveMine : public AActor
@@ -12,11 +19,22 @@ class ASTEROIDHUNTER_API AExplosiveMine : public AActor
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* MineMesh;
+
+	UPROPERTY(EditAnywhere, Category = "Mines Spawn Data", meta = (AllowPrivateAccess = "true"))
 	FVector Bump;
 
-	float RandomDistance;
+	UPROPERTY(EditAnywhere, Category = Visuals, meta = (AllowPrivateAccess = "true"))
+	FLinearColor GlowColorMin;
 
-	FVector Start;
+	UPROPERTY(EditAnywhere, Category = Visuals, meta = (AllowPrivateAccess = "true"))
+	FLinearColor GlowColorMax;
+
+	/*float RandomDistance;
+
+	FVector Start;*/
+
+	FTimeline MinesSpawnTimeline;
 	
 	class UMaterialInstanceDynamic* MineDynamicMaterial;
 
@@ -29,7 +47,15 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UPROPERTY(EditAnywhere, Category = Category = "Mines Spawn Data|Curves")
+	UCurveFloat* LocationCurve;
+
+	UPROPERTY(EditAnywhere, Category = Category = "Mines Spawn Data|Curves")
+	UCurveFloat* ZBumpCurve;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
+	void TimelineMineDistribution(float Value);
 };
