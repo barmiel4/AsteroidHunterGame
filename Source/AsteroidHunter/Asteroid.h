@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "BaseObstacle.h"
 
+#include "Field/FieldSystemTypes.h"
+
 #include "Asteroid.generated.h"
 
 /**
@@ -34,7 +36,13 @@ class ASTEROIDHUNTER_API AAsteroid : public ABaseObstacle
 	float LifeTime;
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	float ExplosionStreangth;
+	float ExplosionStrength;
+
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true", Tooltip = "The offset of explosion center in direction away from the asteroid. If 0.0, explosion occures directly in the asteroid center"))
+	float HitDirectionOffset = 0.f;
+
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	TEnumAsByte<EFieldFalloffType> ExplosionFalloffType;
 
 	UPROPERTY()
 	FTimerHandle DestroyTimer = FTimerHandle();

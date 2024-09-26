@@ -229,8 +229,6 @@ void ASpaceship::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor*
 
 void ASpaceship::TimelineCollisionRotation(float Value)
 {
-	//PRINTC_F("Rotation Value = %f", Value, 0, FColor::Cyan);
-
 	FRotator CollisionRotation = UKismetMathLibrary::RLerp(GetActorRotation(), FRotator(HitOffset.X, 0.f, -HitOffset.Y), Value, false);
 
 	GetMeshComponent()->SetWorldRotation(CollisionRotation);
@@ -238,8 +236,6 @@ void ASpaceship::TimelineCollisionRotation(float Value)
 
 void ASpaceship::TimelineCollisionLocationOffset(float Value)
 {
-	//PRINTC_F("Location Value = %f", Value, 0, FColor::Blue);
-
 	FVector CollisionLocation = UKismetMathLibrary::VLerp(OnCollisionLocationCache, OnCollisionLocationCache - HitOffset, Value);
 
 	SetActorLocation(CollisionLocation);
@@ -268,9 +264,6 @@ void ASpaceship::Tick(float DeltaTime)
 	auto Mesh = GetMeshComponent();
 	float InterpSpeed = AxisValue == 0.f ? 5.5f : 10.f;
 	Mesh->SetWorldRotation(UKismetMathLibrary::RInterpTo(Mesh->GetComponentRotation(), Lean * AxisValue, GetWorld()->GetDeltaSeconds(), InterpSpeed));
-
-	/*PRINT_F("Rifle heat = %f", RifleHeatLevel, 0);
-	PRINT_F("Shotgun heat = %f", ShotgunHeatLevel, 0);*/
 
 	DecreaseHeat();
 }

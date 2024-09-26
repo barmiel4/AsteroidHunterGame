@@ -8,7 +8,7 @@ public class AsteroidHunter : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "FieldSystemEngine", "GeometryCollectionEngine" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "FieldSystemEngine", "GeometryCollectionEngine", "Chaos" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

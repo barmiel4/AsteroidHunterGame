@@ -63,7 +63,18 @@ void AAsteroid::HandleCollision(AActor* HitActor)
 
 void AAsteroid::TriggerChaosExplosion(const FVector& HitDirection)
 {
+	FVector ExplosionCenter = GetActorLocation() - (HitDirection * HitDirectionOffset);
+	//FVector ExplosionCenter = GetActorLocation();
 
+	RadialFalloff->SetRadialFalloff(9999999.0f, 0.f, 1.f, 0.f, ExplosionStrength, ExplosionCenter, ExplosionFalloffType);
+
+	Exploder->ApplyPhysicsField(true, EFieldPhysicsType::Field_ExternalClusterStrain, nullptr, RadialFalloff);
+
+
+	RadialVector->SetRadialVector(ExplosionStrength, ExplosionCenter);
+	CullingField->SetCullingField(RadialFalloff, RadialVector, EFieldCullingOperationType::Field_Culling_Outside);
+
+	Exploder->ApplyPhysicsField(true, EFieldPhysicsType::Field_LinearVelocity, nullptr, CullingField);
 }
 
 void AAsteroid::Destroy()
@@ -81,6 +92,4 @@ void AAsteroid::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 
 		Spaceship->CollisionReaction(GetActorLocation());
 	}
-
-	Destroy();
 }
