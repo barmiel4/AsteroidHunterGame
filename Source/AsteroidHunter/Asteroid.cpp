@@ -17,6 +17,8 @@
 
 AAsteroid::AAsteroid()
 {
+	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AAsteroid::OnMeshBeginOverlap);
+
 	DestructibleAsteroid = CreateDefaultSubobject<UGeometryCollectionComponent>(TEXT("DestructibleAsteroid"));
 	DestructibleAsteroid->SetSimulatePhysics(false);
 	DestructibleAsteroid->SetupAttachment(RootComponent);
@@ -65,4 +67,9 @@ void AAsteroid::TriggerChaosExplosion(const FVector& HitDirection)
 void AAsteroid::Destroy()
 {
 	AActor::Destroy();
+}
+
+void AAsteroid::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Destroy();
 }

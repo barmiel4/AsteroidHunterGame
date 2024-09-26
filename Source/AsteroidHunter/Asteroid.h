@@ -39,8 +39,6 @@ class ASTEROIDHUNTER_API AAsteroid : public ABaseObstacle
 	UPROPERTY()
 	FTimerHandle DestroyTimer = FTimerHandle();
 
-	FVector HitLocationCache;
-
 	void HandleCollision(AActor* HitActor);
 
 	void TriggerChaosExplosion(const FVector& HitDirection);
@@ -48,8 +46,14 @@ class ASTEROIDHUNTER_API AAsteroid : public ABaseObstacle
 	UFUNCTION()
 	void Destroy();
 
+	UFUNCTION()
+	void OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 public:
 	AAsteroid();
+
+	FVector HitLocationCache;
 
 protected:
 	virtual void BeginPlay() override;

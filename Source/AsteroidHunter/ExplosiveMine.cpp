@@ -16,6 +16,7 @@
 #define PRINT_B(prompt, mess) GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Green, FString::Printf(TEXT(prompt), mess ? TEXT("TRUE") : TEXT("FALSE")));
 
 
+
 // Sets default values
 AExplosiveMine::AExplosiveMine()
 {
@@ -26,16 +27,7 @@ AExplosiveMine::AExplosiveMine()
 	MineMesh->SetCollisionProfileName(TEXT("Mine"));
 	SetRootComponent(MineMesh);
 
-	//can timeline be here?
-	/*FOnTimelineFloat TimelineProgressLocation;
-	TimelineProgressLocation.BindUFunction(this, FName("TimelineMineDistributionLocation"));
-	MinesSpawnTimeline.AddInterpFloat(LocationCurve, TimelineProgressLocation);
-
-	FOnTimelineFloat TimelineProgressZOffset;
-	TimelineProgressZOffset.BindUFunction(this, FName("TimelineMineDistributionZOffset"));
-	MinesSpawnTimeline.AddInterpFloat(ZBumpCurve, TimelineProgressZOffset);
-
-	MinesSpawnTimeline.SetLooping(false);*/
+	MineMesh->OnComponentBeginOverlap.AddDynamic(this, &AExplosiveMine::OnMeshBeginOverlap);
 }
 
 // Called when the game starts or when spawned
@@ -94,4 +86,9 @@ void AExplosiveMine::TimelineMineDistributionLocation(float Value)
 	FVector NewLocation = UKismetMathLibrary::VEase(Start, Target, Value, EEasingFunc::EaseInOut);
 
 	SetActorLocation(NewLocation);
+}
+
+void AExplosiveMine::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Destroy();
 }

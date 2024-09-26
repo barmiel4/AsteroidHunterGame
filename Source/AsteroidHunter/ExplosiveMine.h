@@ -40,6 +40,10 @@ class ASTEROIDHUNTER_API AExplosiveMine : public AActor
 	
 	class UMaterialInstanceDynamic* MineDynamicMaterial;
 
+	UFUNCTION()
+	void OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 public:	
 	// Sets default values for this actor's properties
 	AExplosiveMine();

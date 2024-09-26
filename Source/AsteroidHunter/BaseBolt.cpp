@@ -9,6 +9,21 @@
 
 #include "Components/StaticMeshComponent.h"
 
+#include "Asteroid.h"
+
+#include "Spaceship.h"
+
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+
+
+#define PRINT(mess, mtime)  GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, TEXT(mess));
+#define PRINTC(mess, color)  GEngine->AddOnScreenDebugMessage(-1, 5, color, TEXT(mess));
+#define PRINT_F(prompt, mess, mtime) GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, FString::Printf(TEXT(prompt), mess));
+#define PRINTC_F(prompt, mess, mtime, color) GEngine->AddOnScreenDebugMessage(-1, mtime, color, FString::Printf(TEXT(prompt), mess));
+#define PRINT_B(prompt, mess) GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Green, FString::Printf(TEXT(prompt), mess ? TEXT("TRUE") : TEXT("FALSE")));
+
+
 // Sets default values
 ABaseBolt::ABaseBolt()
 {
@@ -24,6 +39,8 @@ ABaseBolt::ABaseBolt()
 	BoltMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BoltMesh"));
 	BoltMesh->SetupAttachment(Root);
 	BoltMesh->SetCollisionProfileName(TEXT("Bolt"));
+
+	BoltMesh->OnComponentBeginOverlap.AddDynamic(this, &ABaseBolt::OnMeshBeginOverlap);
 }
 
 // Called when the game starts or when spawned
@@ -34,6 +51,28 @@ void ABaseBolt::BeginPlay()
 	ProjectileMovementComp->InitialSpeed = ProjectileMovementComp->MaxSpeed = BoltSpeed;
 
 	ProjectileMovementComp->Velocity = BoltSpeed * GetActorForwardVector();
+}
+
+void ABaseBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	PRINTC("OnMeshBeginOverlap of BaseBolt", FColor::Emerald);
+
+	if (AAsteroid* Asteroid = Cast<AAsteroid>(OtherActor))
+	{
+		Asteroid->HitLocationCache = GetActorLocation();
+
+		auto Player = Cast<ASpaceship>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+		if (Player)
+		{
+			Player->IncreaseScore(PointsOnImpact);
+
+			if (UKismetMathLibrary::RandomFloatInRange(0.f, 1.f) <= CoolerChance)
+				SpawnCooler();
+
+			if (bDestroyOnImpact)
+				Destroy();
+		}
+	}
 }
 
 void ABaseBolt::SpawnCooler()

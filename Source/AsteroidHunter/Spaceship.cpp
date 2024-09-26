@@ -32,6 +32,11 @@
 #define PRINT_B(prompt, mess) GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Green, FString::Printf(TEXT(prompt), mess ? TEXT("TRUE") : TEXT("FALSE")));
 
 
+void ASpaceship::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+
+}
+
 ASpaceship::ASpaceship()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -45,9 +50,16 @@ ASpaceship::ASpaceship()
 	ShieldMesh->SetVisibility(false);
 	ShieldMesh->SetCollisionProfileName(TEXT("Shield"));
 
+	ShieldMesh->OnComponentBeginOverlap.AddDynamic(this, &ASpaceship::OnMeshBeginOverlap);
+
 	DamagedEffect = CreateDefaultSubobject< UParticleSystemComponent>(TEXT("Damaged Effect"));
 	DamagedEffect->SetupAttachment(RootComponent);
 	DamagedEffect->bAutoActivate = false;
+}
+
+void ASpaceship::IncreaseScore(int Points)
+{
+	Score += Points;
 }
 
 void ASpaceship::BeginPlay()
