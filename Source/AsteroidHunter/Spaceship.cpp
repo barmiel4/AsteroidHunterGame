@@ -62,6 +62,11 @@ void ASpaceship::TakeDamage(float Damage)
 
 }
 
+void ASpaceship::Heal(float HealAmount)
+{
+
+}
+
 void ASpaceship::BeginPlay()
 {
 	Super::BeginPlay();
@@ -219,7 +224,6 @@ void ASpaceship::DecreaseHeat()
 
 void ASpaceship::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//PRINT("Collision with shield mesh", 4.f);
 	HandleCollisionWithShield();
 }
 

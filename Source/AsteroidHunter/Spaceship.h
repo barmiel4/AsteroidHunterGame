@@ -98,6 +98,8 @@ public:
 
 	void TakeDamage(float Damage);
 
+	void Heal(float HealAmount);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

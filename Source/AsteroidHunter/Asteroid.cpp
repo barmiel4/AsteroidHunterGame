@@ -14,6 +14,8 @@
 
 #include "GameFramework/RotatingMovementComponent.h"
 
+#include "Spaceship.h"
+
 
 AAsteroid::AAsteroid()
 {
@@ -71,5 +73,14 @@ void AAsteroid::Destroy()
 
 void AAsteroid::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	HandleCollision(OtherActor);
+
+	if (auto Spaceship = Cast<ASpaceship>(OtherActor))
+	{
+		Spaceship->TakeDamage(20);
+
+		Spaceship->CollisionReaction(GetActorLocation());
+	}
+
 	Destroy();
 }
