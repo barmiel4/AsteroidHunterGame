@@ -60,6 +60,10 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	//------------------------- collision handling -------------------------
 	FTimeline CollisionReactionTimeline;
 
+	FVector HitOffset;
+
+	FVector OnCollisionLocationCache;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision Reaction Curves", meta = (AllowPrivateAccess = "true"))
 	UCurveFloat* LocationOffsetCurve;
 

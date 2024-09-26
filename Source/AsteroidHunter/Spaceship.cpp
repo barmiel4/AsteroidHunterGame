@@ -82,8 +82,6 @@ void ASpaceship::BeginPlay()
 	ShieldIntegrity = ShieldMaxIntegrity;
 
 	ShieldDynamicMaterialInstance = ShieldMesh->CreateDynamicMaterialInstance(0);
-
-	PRINTC("CreateDynamicMaterialInstance doesnt take material as input -> may cause problems", FColor::White);
 	
 	ShieldDynamicMaterialInstance->GetVectorParameterValue(FName("Color"), ShieldDefaultColor);
 	ShieldMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -99,7 +97,6 @@ void ASpaceship::BeginPlay()
 	TimelineProgressLocationOffset.BindUFunction(this, FName("TimelineCollisionLocationOffset"));
 	CollisionReactionTimeline.AddInterpFloat(LocationOffsetCurve, TimelineProgressLocationOffset);	
 
-	CollisionReactionTimeline.PlayFromStart();
 }
 
 void ASpaceship::Move(const FInputActionValue& InputValue)
@@ -222,19 +219,26 @@ void ASpaceship::DecreaseHeat()
 
 void ASpaceship::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	//PRINT("Collision with shield mesh", 4.f);
 	HandleCollisionWithShield();
 }
 
 void ASpaceship::TimelineCollisionRotation(float Value)
 {
-	PRINTC_F("Rotation Value = %f", Value, 0, FColor::Cyan);
+	//PRINTC_F("Rotation Value = %f", Value, 0, FColor::Cyan);
 
+	FRotator CollisionRotation = UKismetMathLibrary::RLerp(GetActorRotation(), FRotator(HitOffset.X, 0.f, -HitOffset.Y), Value, false);
+
+	GetMeshComponent()->SetWorldRotation(CollisionRotation);
 }
 
 void ASpaceship::TimelineCollisionLocationOffset(float Value)
 {
-	PRINTC_F("Location Value = %f", Value, 0, FColor::Blue);
+	//PRINTC_F("Location Value = %f", Value, 0, FColor::Blue);
 
+	FVector CollisionLocation = UKismetMathLibrary::VLerp(OnCollisionLocationCache, OnCollisionLocationCache - HitOffset, Value);
+
+	SetActorLocation(CollisionLocation);
 }
 
 void ASpaceship::ChangeHealthBy(float Amount)
@@ -291,5 +295,14 @@ void ASpaceship::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 void ASpaceship::CollisionReaction(const FVector& AsteroidLocation)
 {
-	PRINTC("ASpaceship::CollisionReaction IS NOT YET IMPLEMENTED!!", FColor::White);
+	if (bIsUsingShield)
+		return;
+
+	float CollisionRadius = GetCollisionComponent()->GetScaledSphereRadius();
+	auto ToAstroid = AsteroidLocation - GetActorLocation();
+	HitOffset = UKismetMathLibrary::ClampVectorSize(ToAstroid, CollisionRadius * .5f, CollisionRadius);
+
+	OnCollisionLocationCache = GetActorLocation();
+
+	CollisionReactionTimeline.PlayFromStart();
 }
