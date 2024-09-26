@@ -32,11 +32,6 @@
 #define PRINT_B(prompt, mess) GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Green, FString::Printf(TEXT(prompt), mess ? TEXT("TRUE") : TEXT("FALSE")));
 
 
-void ASpaceship::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-
-}
-
 ASpaceship::ASpaceship()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -60,6 +55,11 @@ ASpaceship::ASpaceship()
 void ASpaceship::IncreaseScore(int Points)
 {
 	Score += Points;
+}
+
+void ASpaceship::TakeDamage(float Damage)
+{
+
 }
 
 void ASpaceship::BeginPlay()
@@ -89,6 +89,17 @@ void ASpaceship::BeginPlay()
 	ShieldMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	UltraBoltThreshold = UltraBoltCost;
+
+	//set up timelines
+	FOnTimelineFloat TimelineProgressRotation;
+	TimelineProgressRotation.BindUFunction(this, FName("TimelineCollisionRotation"));
+	CollisionReactionTimeline.AddInterpFloat(RotationCurve, TimelineProgressRotation);
+
+	FOnTimelineFloat TimelineProgressLocationOffset;
+	TimelineProgressLocationOffset.BindUFunction(this, FName("TimelineCollisionLocationOffset"));
+	CollisionReactionTimeline.AddInterpFloat(LocationOffsetCurve, TimelineProgressLocationOffset);	
+
+	CollisionReactionTimeline.PlayFromStart();
 }
 
 void ASpaceship::Move(const FInputActionValue& InputValue)
@@ -209,9 +220,42 @@ void ASpaceship::DecreaseHeat()
 	ShotgunHeatLevel = UKismetMathLibrary::FInterpTo(ShotgunHeatLevel, 0, GetWorld()->GetDeltaSeconds(), .1f);
 }
 
+void ASpaceship::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	HandleCollisionWithShield();
+}
+
+void ASpaceship::TimelineCollisionRotation(float Value)
+{
+	PRINTC_F("Rotation Value = %f", Value, 0, FColor::Cyan);
+
+}
+
+void ASpaceship::TimelineCollisionLocationOffset(float Value)
+{
+	PRINTC_F("Location Value = %f", Value, 0, FColor::Blue);
+
+}
+
+void ASpaceship::ChangeHealthBy(float Amount)
+{
+}
+
+void ASpaceship::OnDeath()
+{
+
+}
+
+void ASpaceship::Restart()
+{
+
+}
+
 void ASpaceship::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	CollisionReactionTimeline.TickTimeline(DeltaTime);
 
 	auto Mesh = GetMeshComponent();
 	float InterpSpeed = AxisValue == 0.f ? 5.5f : 10.f;

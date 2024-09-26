@@ -5,10 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/DefaultPawn.h"
 
+#include "Components/TimelineComponent.h"
+
 #include "Spaceship.generated.h"
 
 
 class UInputAction;
+class UCurveFloat;
+class UParticleSystem;
 struct FInputActionValue;
 
 
@@ -53,6 +57,15 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Shield Perk|Visuals", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* ShieldMesh;
 
+	//------------------------- collision handling -------------------------
+	FTimeline CollisionReactionTimeline;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision Reaction Curves", meta = (AllowPrivateAccess = "true"))
+	UCurveFloat* LocationOffsetCurve;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision Reaction Curves", meta = (AllowPrivateAccess = "true"))
+	UCurveFloat* RotationCurve;
+
 	//------------------------- misc -------------------------
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Visuals", meta = (AllowPrivateAccess = "true"))
 	class UParticleSystemComponent* DamagedEffect;
@@ -61,10 +74,25 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	void OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UFUNCTION()
+	void TimelineCollisionRotation(float Value);
+
+	UFUNCTION()
+	void TimelineCollisionLocationOffset(float Value);
+
+	void ChangeHealthBy(float Amount);
+
+	void OnDeath();
+
+	UFUNCTION()
+	void Restart();
+
 public:
 	ASpaceship();
 
 	void IncreaseScore(int Points);
+
+	void TakeDamage(float Damage);
 
 protected:
 	// Called when the game starts or when spawned
@@ -100,6 +128,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Health")
 	float CritacalDamageThresholdPrecent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Death")
+	UParticleSystem* DeathParticle;
 
 	UPROPERTY(BlueprintReadOnly)
 	int Score = 0;
