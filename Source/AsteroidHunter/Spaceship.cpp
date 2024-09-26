@@ -9,6 +9,7 @@
 #include "InputActionValue.h"
 
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInterface.h"
@@ -19,6 +20,8 @@
 
 #include "Components/SceneComponent.h"
 #include "Components/SphereComponent.h"
+
+//#include "GameplaySta"
 
 #include "BaseBolt.h"
 #include "UltraBolt.h"
@@ -59,12 +62,23 @@ void ASpaceship::IncreaseScore(int Points)
 
 void ASpaceship::TakeDamage(float Damage)
 {
+	if (bIsUsingShield)
+		return;
 
+	ChangeHealthBy(-Damage);
+
+	if (Health <= 0.f)
+		OnDeath();
 }
 
 void ASpaceship::Heal(float HealAmount)
 {
+	ChangeHealthBy(HealAmount);
+}
 
+void ASpaceship::CoolGun()
+{
+	PRINT_F("random int<0; 1> = %i", UKismetMathLibrary::RandomInteger(1), 2.f);
 }
 
 void ASpaceship::BeginPlay()
@@ -118,6 +132,8 @@ void ASpaceship::MoveEnd(const FInputActionValue& InputValue)
 
 void ASpaceship::Shoot()
 {
+	//CoolGun();
+
 	if (bIsShotgunEquipped)
 		UseShotgun();
 	else
@@ -243,16 +259,28 @@ void ASpaceship::TimelineCollisionLocationOffset(float Value)
 
 void ASpaceship::ChangeHealthBy(float Amount)
 {
+	Health = FMath::Clamp(Health + Amount, 0.f, MaxHealth);
+
+	if ((Health / MaxHealth) <= CritacalDamageThresholdPrecent)
+		DamagedEffect->Activate();
+	else
+		DamagedEffect->Deactivate();
 }
 
 void ASpaceship::OnDeath()
 {
+	//spawn particle
 
+	SetActorHiddenInGame(true);
+
+	SetActorEnableCollision(false);
+
+	GetWorld()->GetTimerManager().SetTimer(DestroyTimer, this, &ASpaceship::LoadMainMenu, 2.f, false);
 }
 
-void ASpaceship::Restart()
+void ASpaceship::LoadMainMenu()
 {
-
+	UGameplayStatics::OpenLevel(GetWorld(), "Main Menu");
 }
 
 void ASpaceship::Tick(float DeltaTime)

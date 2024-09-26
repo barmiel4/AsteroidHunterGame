@@ -73,6 +73,9 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	//------------------------- misc -------------------------
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Visuals", meta = (AllowPrivateAccess = "true"))
 	class UParticleSystemComponent* DamagedEffect;
+
+	UPROPERTY()
+	FTimerHandle DestroyTimer = FTimerHandle();
 	
 	UFUNCTION()
 	void OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -89,7 +92,7 @@ class ASTEROIDHUNTER_API ASpaceship : public ADefaultPawn
 	void OnDeath();
 
 	UFUNCTION()
-	void Restart();
+	void LoadMainMenu();
 
 public:
 	ASpaceship();
@@ -99,6 +102,8 @@ public:
 	void TakeDamage(float Damage);
 
 	void Heal(float HealAmount);
+
+	void CoolGun();
 
 protected:
 	// Called when the game starts or when spawned

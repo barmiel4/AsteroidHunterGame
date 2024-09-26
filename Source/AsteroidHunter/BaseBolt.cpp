@@ -66,7 +66,7 @@ void ABaseBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 		{
 			Player->IncreaseScore(PointsOnImpact);
 
-			if (UKismetMathLibrary::RandomFloatInRange(0.f, 1.f) <= CoolerChance)
+			if (UKismetMathLibrary::RandomFloat() <= CoolerChance)
 				SpawnCooler();
 
 			if (bDestroyOnImpact)
