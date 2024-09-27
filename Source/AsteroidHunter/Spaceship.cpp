@@ -269,7 +269,7 @@ void ASpaceship::ChangeHealthBy(float Amount)
 
 void ASpaceship::OnDeath()
 {
-	//spawn particle
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DeathParticle, GetActorTransform());
 
 	SetActorHiddenInGame(true);
 
