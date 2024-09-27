@@ -78,17 +78,10 @@ void ASpaceship::Heal(float HealAmount)
 
 void ASpaceship::CoolGun()
 {
-	PRINT_F("random int<0; 1> = %i", UKismetMathLibrary::RandomInteger(1), 2.f);
-	PRINTC_F("random bool = %i", UKismetMathLibrary::RandomBool(), 2.f, FColor::White);
-
-	PRINTC("cool gun return immediatelly", FColor::Red);
-	return;
-
 	if (UKismetMathLibrary::RandomBool())
 		RifleHeatLevel *= 0.5f;
 	else
 		ShotgunHeatLevel *= 0.2f;
-
 }
 
 void ASpaceship::BeginPlay()
@@ -154,8 +147,6 @@ void ASpaceship::UseShield()
 {
 	if (bIsUsingShield || Score < ShieldThreshold)
 		return;
-
-	PRINT("shield", 3);
 	
 	ShieldMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	ShieldMesh->SetVisibility(true);
@@ -167,8 +158,6 @@ void ASpaceship::UseUltraBolt()
 {
 	if (Score < UltraBoltThreshold)
 		return;
-
-	PRINT("SPAWN ULTRA BOLT!!", 3);
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

@@ -56,7 +56,7 @@ void ABaseBolt::BeginPlay()
 
 void ABaseBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//PRINTC("OnMeshBeginOverlap of BaseBolt", FColor::Emerald);
+	//PRINTC("OnColliderBeginOverlap of BaseBolt", FColor::Emerald);
 
 	if (AAsteroid* Asteroid = Cast<AAsteroid>(OtherActor))
 	{

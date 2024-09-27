@@ -43,7 +43,7 @@ void AUltraBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor*
 {
 	Super::OnMeshBeginOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 
-	PRINTC("OnMeshBeginOverlap of UltraBolt", FColor::Green);
+	PRINTC("OnColliderBeginOverlap of UltraBolt", FColor::Green);
 
 	if (Cast<AAsteroid>(OtherActor))
 		SpawnMines();

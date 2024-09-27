@@ -12,7 +12,7 @@ class ASTEROIDHUNTER_API AGunCooler : public AActor
 	GENERATED_BODY()
 
 	UFUNCTION()
-	virtual void OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	virtual void OnColliderBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 public:	
@@ -25,10 +25,16 @@ public:
 	class USceneComponent* Root;
 
 	UPROPERTY(EditAnywhere)
-	class UProjectileMovementComponent* ProjectileMovement;
+	float IncomingSpeed;
+
+	//UPROPERTY(EditAnywhere)
+	//class UProjectileMovementComponent* ProjectileMovement;
 
 	UPROPERTY(EditAnywhere)
 	class URotatingMovementComponent* RotatingMovement;
+
+	UPROPERTY()
+	class ASpaceship* PlayerSpaceship;
 
 	// Sets default values for this actor's properties
 	AGunCooler();
