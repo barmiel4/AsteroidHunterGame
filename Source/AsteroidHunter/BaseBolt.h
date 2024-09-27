@@ -11,8 +11,8 @@ class ASTEROIDHUNTER_API ABaseBolt : public AActor
 {
 	GENERATED_BODY()
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	int PointsOnImpact = 1;*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	int PointsOnImpact = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bDestroyOnImpact = true;
@@ -29,8 +29,8 @@ class ASTEROIDHUNTER_API ABaseBolt : public AActor
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UProjectileMovementComponent* ProjectileMovementComp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UWeaponInteractionComponent* WeaponInteractionComp;
+	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UWeaponInteractionComponent* WeaponInteractionComp;*/
 
 	class USceneComponent* Root;
 	

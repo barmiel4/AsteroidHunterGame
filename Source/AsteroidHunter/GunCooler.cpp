@@ -23,6 +23,7 @@ AGunCooler::AGunCooler()
 	SetRootComponent(Root);
 
 	CollisionComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
+	CollisionComponent->SetCollisionProfileName(TEXT("Pickup"));
 	CollisionComponent->SetupAttachment(Root);
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
@@ -31,7 +32,7 @@ AGunCooler::AGunCooler()
 
 	CoolerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CoolerMesh"));
 	CoolerMesh->SetupAttachment(CollisionComponent);
-	CoolerMesh->SetCollisionProfileName(TEXT("Bolt"));
+	CoolerMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
 	CoolerMesh->OnComponentBeginOverlap.AddDynamic(this, &AGunCooler::OnMeshBeginOverlap);
 

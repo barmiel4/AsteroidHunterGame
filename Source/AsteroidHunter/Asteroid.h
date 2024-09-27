@@ -32,17 +32,27 @@ class ASTEROIDHUNTER_API AAsteroid : public ABaseObstacle
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	class UCullingField* CullingField;
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = "On Destruction", meta = (AllowPrivateAccess = "true"))
 	float LifeTime;
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = "On Destruction", meta = (AllowPrivateAccess = "true"))
 	float ExplosionStrength;
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true", Tooltip = "The offset of explosion center in direction away from the asteroid. If 0.0, explosion occures directly in the asteroid center"))
+	UPROPERTY(EditAnywhere, Category = "On Destruction", meta = (AllowPrivateAccess = "true"))
+	FName HitReactionProfileName;
+
+	UPROPERTY(EditAnywhere, Category = "On Destruction", meta = (AllowPrivateAccess = "true", Tooltip = "The offset of explosion center in direction away from the asteroid. If 0.0, explosion occures directly in the asteroid center"))
 	float HitDirectionOffset = 0.f;
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = "On Destruction", meta = (AllowPrivateAccess = "true"))
 	TEnumAsByte<EFieldFalloffType> ExplosionFalloffType;
+
+	UPROPERTY(EditAnywhere, Category = "On Destruction|Cooler", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class AGunCooler> GunCoolerClass;
+
+	UPROPERTY(EditAnywhere, Category = "On Destruction|Cooler", meta = (AllowPrivateAccess = "true"))
+	float CoolerChance = 0.25f;
+
 
 	UPROPERTY()
 	FTimerHandle DestroyTimer = FTimerHandle();

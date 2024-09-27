@@ -11,12 +11,15 @@
 #include "Components/SphereComponent.h"
 
 #include "GameFramework/ProjectileMovementComponent.h"
-
 #include "GameFramework/RotatingMovementComponent.h"
+
+#include "Kismet/KismetMathLibrary.h"
 
 #include "Spaceship.h"
 
-#include "WeaponInteractionComponent.h"
+#include "GunCooler.h"
+
+#define PRINT_F(prompt, mess, mtime) GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::White, FString::Printf(TEXT(prompt), mess));
 
 
 AAsteroid::AAsteroid()
@@ -88,8 +91,16 @@ void AAsteroid::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 {
 	HandleCollision(OtherActor);
 
-	if (auto WIComp = Cast<UWeaponInteractionComponent>(OverlappedComp))
-		WIComp->OnInteraction(GetActorTransform());
+	if (OtherComp->GetCollisionProfileName() == HitReactionProfileName)
+	{
+		if (UKismetMathLibrary::RandomFloat() <= CoolerChance)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+			GetWorld()->SpawnActor<AGunCooler>(GunCoolerClass, GetActorLocation(), FRotator(0.f), SpawnParams);
+		}
+	}
 
 	if (auto Spaceship = Cast<ASpaceship>(OtherActor))
 	{

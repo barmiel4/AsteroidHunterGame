@@ -19,6 +19,9 @@ class ASTEROIDHUNTER_API AExplosiveMine : public AActor
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	int PointsOnImpact = 1;
+
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* MineMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Mines Spawn Data", meta = (AllowPrivateAccess = "true"))

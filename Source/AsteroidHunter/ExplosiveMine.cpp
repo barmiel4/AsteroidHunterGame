@@ -7,6 +7,9 @@
 
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
+
+#include "Spaceship.h"
 
 
 #define PRINT(mess, mtime)  GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, TEXT(mess));
@@ -73,15 +76,11 @@ void AExplosiveMine::Tick(float DeltaTime)
 
 void AExplosiveMine::TimelineMineDistributionZOffset(float Value)
 {
-	//PRINTC("Z-Offset Timeline", FColor::Cyan);
-
 	BumpInterpolated = Bump * Value;
 }
 
 void AExplosiveMine::TimelineMineDistributionLocation(float Value)
 {
-	//PRINTC("Location Timeline", FColor::White);
-
 	FVector Target = Start + BumpInterpolated + (GetActorForwardVector() * RandomDistance);
 	FVector NewLocation = UKismetMathLibrary::VEase(Start, Target, Value, EEasingFunc::EaseInOut);
 
@@ -90,5 +89,9 @@ void AExplosiveMine::TimelineMineDistributionLocation(float Value)
 
 void AExplosiveMine::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	auto Player = Cast<ASpaceship>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	if (Player)
+		Player->IncreaseScore(PointsOnImpact);
+
 	Destroy();
 }

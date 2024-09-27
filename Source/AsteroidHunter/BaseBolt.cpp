@@ -36,8 +36,6 @@ ABaseBolt::ABaseBolt()
 	ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 	ProjectileMovementComp->ProjectileGravityScale = 0;
 	ProjectileMovementComp->bRotationFollowsVelocity = true;
-
-	WeaponInteractionComp = CreateDefaultSubobject<UWeaponInteractionComponent>(TEXT("WeaponInteraction"));
 	
 	BoltMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BoltMesh"));
 	BoltMesh->SetupAttachment(Root);
@@ -58,21 +56,15 @@ void ABaseBolt::BeginPlay()
 
 void ABaseBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	PRINTC("OnMeshBeginOverlap of BaseBolt", FColor::Emerald);
+	//PRINTC("OnMeshBeginOverlap of BaseBolt", FColor::Emerald);
 
 	if (AAsteroid* Asteroid = Cast<AAsteroid>(OtherActor))
 	{
 		Asteroid->HitLocationCache = GetActorLocation();
 
-		/*auto Player = Cast<ASpaceship>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+		auto Player = Cast<ASpaceship>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 		if (Player)
-		{
 			Player->IncreaseScore(PointsOnImpact);
-
-			if (UKismetMathLibrary::RandomFloat() <= CoolerChance)
-				SpawnCooler();
-
-		}*/
 
 		if (bDestroyOnImpact)
 			Destroy();
