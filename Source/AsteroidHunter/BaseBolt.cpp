@@ -39,7 +39,7 @@ ABaseBolt::ABaseBolt()
 	
 	BoltMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BoltMesh"));
 	BoltMesh->SetupAttachment(Root);
-	BoltMesh->SetCollisionProfileName(TEXT("Bolt"));
+	BoltMesh->SetCollisionProfileName(TEXT("DestructionTool"));
 
 	BoltMesh->OnComponentBeginOverlap.AddDynamic(this, &ABaseBolt::OnMeshBeginOverlap);
 }

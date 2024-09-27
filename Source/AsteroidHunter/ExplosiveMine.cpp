@@ -27,7 +27,7 @@ AExplosiveMine::AExplosiveMine()
 	PrimaryActorTick.bCanEverTick = true;
 
 	MineMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MineMesh"));
-	MineMesh->SetCollisionProfileName(TEXT("Mine"));
+	MineMesh->SetCollisionProfileName(TEXT("DestructionTool"));
 	SetRootComponent(MineMesh);
 
 	MineMesh->OnComponentBeginOverlap.AddDynamic(this, &AExplosiveMine::OnMeshBeginOverlap);
