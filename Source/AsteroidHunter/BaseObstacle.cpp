@@ -6,7 +6,6 @@
 #include "Components/SphereComponent.h"
 
 #include "GameFramework/ProjectileMovementComponent.h"
-
 #include "GameFramework/RotatingMovementComponent.h"
 
 #include "Kismet/KismetMathLibrary.h"

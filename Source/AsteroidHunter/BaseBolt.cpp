@@ -6,15 +6,16 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 
 #include "Components/SceneComponent.h"
-
 #include "Components/StaticMeshComponent.h"
+
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 #include "Asteroid.h"
 
 #include "Spaceship.h"
 
-#include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetMathLibrary.h"
+#include "WeaponInteractionComponent.h"
 
 
 #define PRINT(mess, mtime)  GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, TEXT(mess));
@@ -35,6 +36,8 @@ ABaseBolt::ABaseBolt()
 	ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 	ProjectileMovementComp->ProjectileGravityScale = 0;
 	ProjectileMovementComp->bRotationFollowsVelocity = true;
+
+	WeaponInteractionComp = CreateDefaultSubobject<UWeaponInteractionComponent>(TEXT("WeaponInteraction"));
 	
 	BoltMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BoltMesh"));
 	BoltMesh->SetupAttachment(Root);
@@ -61,7 +64,7 @@ void ABaseBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 	{
 		Asteroid->HitLocationCache = GetActorLocation();
 
-		auto Player = Cast<ASpaceship>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+		/*auto Player = Cast<ASpaceship>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 		if (Player)
 		{
 			Player->IncreaseScore(PointsOnImpact);
@@ -69,15 +72,11 @@ void ABaseBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 			if (UKismetMathLibrary::RandomFloat() <= CoolerChance)
 				SpawnCooler();
 
-			if (bDestroyOnImpact)
-				Destroy();
-		}
+		}*/
+
+		if (bDestroyOnImpact)
+			Destroy();
 	}
-}
-
-void ABaseBolt::SpawnCooler()
-{
-
 }
 
 // Called every frame
