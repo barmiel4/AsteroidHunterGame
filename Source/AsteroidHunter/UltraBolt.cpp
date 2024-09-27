@@ -4,6 +4,7 @@
 #include "UltraBolt.h"
 
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 #include "ExplosiveMine.h"
 
@@ -15,7 +16,6 @@
 #define PRINT_F(prompt, mess, mtime) GEngine->AddOnScreenDebugMessage(-1, mtime, FColor::Green, FString::Printf(TEXT(prompt), mess));
 #define PRINTC_F(prompt, mess, mtime, color) GEngine->AddOnScreenDebugMessage(-1, mtime, color, FString::Printf(TEXT(prompt), mess));
 #define PRINT_B(prompt, mess) GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Green, FString::Printf(TEXT(prompt), mess ? TEXT("TRUE") : TEXT("FALSE")));
-
 
 
 void AUltraBolt::SpawnMines()
@@ -34,17 +34,12 @@ void AUltraBolt::SpawnMines()
 	}
 }
 
-AUltraBolt::AUltraBolt()
-{
-	BoltMesh->OnComponentBeginOverlap.AddDynamic(this, &AUltraBolt::OnMeshBeginOverlap);
-}
-
 void AUltraBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	Super::OnMeshBeginOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+	if (AAsteroid* Asteroid = Cast<AAsteroid>(OtherActor))
+	{
+		Asteroid->HitLocationCache = GetActorLocation();
 
-	PRINTC("OnColliderBeginOverlap of UltraBolt", FColor::Green);
-
-	if (Cast<AAsteroid>(OtherActor))
 		SpawnMines();
+	}
 }

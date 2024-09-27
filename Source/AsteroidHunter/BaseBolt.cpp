@@ -56,8 +56,6 @@ void ABaseBolt::BeginPlay()
 
 void ABaseBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//PRINTC("OnColliderBeginOverlap of BaseBolt", FColor::Emerald);
-
 	if (AAsteroid* Asteroid = Cast<AAsteroid>(OtherActor))
 	{
 		Asteroid->HitLocationCache = GetActorLocation();
@@ -66,8 +64,7 @@ void ABaseBolt::OnMeshBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 		if (Player)
 			Player->IncreaseScore(PointsOnImpact);
 
-		if (bDestroyOnImpact)
-			Destroy();
+		Destroy();
 	}
 }
 
