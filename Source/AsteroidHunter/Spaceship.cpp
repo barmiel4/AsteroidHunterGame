@@ -41,7 +41,10 @@ ASpaceship::ASpaceship()
 
 	bAddDefaultMovementBindings = false;
 
-	GetMeshComponent()->SetCollisionProfileName(TEXT("NoCollision"));
+	auto Mesh = GetMeshComponent();
+	Mesh->SetCollisionProfileName(TEXT("NoCollision"));
+	Mesh->bRenderInDepthPass = true;
+	Mesh->CustomDepthStencilValue = 1;
 
 	ShieldMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Shield Mesh"));
 	ShieldMesh->SetupAttachment(RootComponent);

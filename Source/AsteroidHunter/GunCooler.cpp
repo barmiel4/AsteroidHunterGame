@@ -39,6 +39,8 @@ AGunCooler::AGunCooler()
 	CoolerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CoolerMesh"));
 	CoolerMesh->SetupAttachment(CollisionComponent);
 	CoolerMesh->SetCollisionProfileName(TEXT("NoCollision"));
+	CoolerMesh->bRenderCustomDepth = true;
+	CoolerMesh->CustomDepthStencilValue = 1;
 
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AGunCooler::OnColliderBeginOverlap);
 

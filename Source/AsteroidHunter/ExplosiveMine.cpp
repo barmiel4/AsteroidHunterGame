@@ -28,6 +28,8 @@ AExplosiveMine::AExplosiveMine()
 
 	MineMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MineMesh"));
 	MineMesh->SetCollisionProfileName(TEXT("DestructionTool"));
+	MineMesh->bRenderCustomDepth = true;
+	MineMesh->CustomDepthStencilValue = 1;
 	SetRootComponent(MineMesh);
 
 	MineMesh->OnComponentBeginOverlap.AddDynamic(this, &AExplosiveMine::OnMeshBeginOverlap);

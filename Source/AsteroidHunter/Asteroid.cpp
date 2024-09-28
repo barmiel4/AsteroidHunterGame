@@ -28,6 +28,8 @@ AAsteroid::AAsteroid()
 
 	DestructibleAsteroid = CreateDefaultSubobject<UGeometryCollectionComponent>(TEXT("DestructibleAsteroid"));
 	DestructibleAsteroid->SetSimulatePhysics(false);
+	DestructibleAsteroid->bRenderCustomDepth = true;
+	DestructibleAsteroid->CustomDepthStencilValue = 3;
 	DestructibleAsteroid->SetupAttachment(RootComponent);
 
 	Exploder = CreateDefaultSubobject<UFieldSystemComponent>(TEXT("Exploder"));
