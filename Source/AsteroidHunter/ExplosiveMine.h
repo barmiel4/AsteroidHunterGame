@@ -35,6 +35,8 @@ class ASTEROIDHUNTER_API AExplosiveMine : public AActor
 
 	float RandomDistance;
 
+	int NumberOfPulses;
+
 	FVector Start;
 
 	FVector BumpInterpolated = FVector(0.f);

@@ -38,6 +38,8 @@ void AExplosiveMine::BeginPlay()
 {
 	Super::BeginPlay();
 
+	NumberOfPulses = UKismetMathLibrary::RandomIntegerInRange(3, 5);
+
 	MineDynamicMaterial = MineMesh->CreateDynamicMaterialInstance(0);
 
 	Start = GetActorLocation();
@@ -67,7 +69,7 @@ void AExplosiveMine::Tick(float DeltaTime)
 
 	MinesSpawnTimeline.TickTimeline(DeltaTime);
 
-	float Alpha = UKismetMathLibrary::MakePulsatingValue(UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld()), 2);
+	float Alpha = UKismetMathLibrary::MakePulsatingValue(UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld()), NumberOfPulses);
 	FLinearColor MineColor = UKismetMathLibrary::LinearColorLerp(GlowColorMin, GlowColorMax, Alpha);
 
 	MineDynamicMaterial->SetVectorParameterValue(FName("Color"), MineColor);
