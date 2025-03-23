@@ -1,8 +1,18 @@
 # AsteroidHunter - Unreal Engine 5
 
+## Idea Origin
+The project is a severe upgrade of the tutorial from the book. Later it was used during the Game Developement workshops in 2020 that I hosted in my High School, to teach students the basics of game developement.  
+
+Number of mechanics were added, such as
+* Smoother player's ship movement
+* Directional hit reactions
+* Astroid destuction
+* Second weapon
+* Overheat system
+* Shield and Ultra Bolt perks
+* Weapon cooling system
+
 ## About the project
-### Note
-This project was created when I hosted the Game Developement workshops for the students back of my High School in 2020.
 
 ### Core Idea
 The following project is a game inspired by _Asteroids_ and _Space Invaders_ with few custom gameplay features. During gameplay, playeres must dodge the asteroids by carefully moving the ship and destroy them to gain points. Each weapon should be used thoughtfully as they can quickly overheat, if fired rapidly. The main goal of the game is to survive as long as possible and reach high score that can unlock two special abilities.
@@ -59,15 +69,3 @@ Project can be run either directly from UE, after clonning the repository and bu
 * **Tab** to switch weapons
 * **Q** to enable shield
 * **E** to use Ultra Bolt
-
-## Idea Origin
-The project is a severe upgrade of the tutorial from the book. Later it was used during the Game Developement workshops in 2020 that I hosted in my High School, to teach students the basics of game developement.  
-
-Number of mechanics were added, such as
-* Smoother player's ship movement
-* Directional hit reactions
-* Astroid destuction
-* Second weapon
-* Overheat system
-* Shield and Ultra Bolt perks
-* Weapon cooling system
