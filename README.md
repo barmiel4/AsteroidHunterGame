@@ -1,7 +1,7 @@
-# AsteroidHunter - Unreal Engine 5
+# Asteroid Hunter - Unreal Engine 5
 
 ## Idea Origin
-The project is a severe upgrade of the tutorial from the book. Later it was used during the Game Developement workshops in 2020 that I hosted in my High School, to teach students the basics of game developement.  
+The project is a severe upgrade of the tutorial from the book. Later I used it during the Game Developement workshops in 2020 that I hosted in my High School, to teach students the basics of game developement.  
 
 Number of mechanics were added, such as:
 * Smoother player's ship movement
@@ -15,7 +15,7 @@ Number of mechanics were added, such as:
 ## About the project
 
 ### Core Idea
-The following project is a game inspired by _Asteroids_ and _Space Invaders_ with few custom gameplay features. During gameplay, players must dodge the asteroids by carefully moving the ship and shooting them to gain points. Each weapon should be used thoughtfully as they can quickly overheat, if fired rapidly. The main goal of the game is to survive as long as possible and reach high scores that can unlock two special abilities.
+The following project is a game inspired by _Asteroids_ and _Space Invaders_ with few custom gameplay features. During gameplay, players must dodge the asteroids by carefully moving the ship and shooting them to gain points. Each weapon should be used thoughtfully as they can quickly overheat, if fired rapidly. The main goal of the game is to survive as long as possible and reach high scores that can unlock special abilities.
 
 ### Gameplay
 <p align="center">
@@ -37,15 +37,15 @@ The game allows players to choose between two weapons to gain advantage in the a
 Each weapon bolt is destroyed upon impact.
 
 ### Overheating mechanic
-Each shot charges the overheat meter. Each weapon overheats differently and can be fired at different heat levels. Once players stop firing, each weapon gradually cools down, which is shown on the UI in the bottom-right corner of the sceen. Also there is a 25% chance that a destroyed asteroid drops a blue gun cooler, the slighly reduces gun heat.
+Each shot charges the overheat meter. Each weapon overheats differently and can be fired at different heat levels. Once player stops firing, each weapon gradually cools down, shown through the UI in the bottom-right corner of the sceen. Also there is a 25% chance that a destroyed asteroid drops a blue gun cooler that slighly reduces gun heat level.
 
 ### Special Perks
-If players peform well during gameplay, they can get access to two special abilities, both unlocked once a specific score threshold is surpassed. Once used, players have to increase score furhter to unlock them again.
+If players peform well during combat, they can get access to two special abilities, both unlocked once a specific score threshold is surpassed. Once used, players have to increase score furhter to unlock them again.
 Those abilities are:
 * **Shield (costs 25 points)** - gives player full protection from asteroids for four hits, then disables itself. By changing its color on each hit, it gives players a visual cues of how much integrity it has left.
 * **Ultra Bolt (costs 45 points)** - special rifle bolt that penetrates through every asteroid on its way, droping mines on impact. Mines expolode once an asteroids triggers them, awarding players with additional 2 points.
 
-### Destructible astroids
+### Destructible asteroids
 When asteroid is destroyed, apart from incrementing player's score, it satisfyingly explodes into dozens of pieces. This feature was implemented with Unreal Engine's Chaos Destruction system that allows to fracture a static mesh and apply a strain during gameplay via Fields System. Here, the destruction pattern chosen was Cluster Fracutre and the destruction itself is handled by a custom field system.
 
 ### Pick-ups
@@ -62,7 +62,7 @@ Other tools include:
 
 ## Usage
 ### How to run it
-Project can be run either directly from UE 5.3.2, after clonning the repository and building the binaries, or from the latest build, that can be downloaded from the Releases section.
+Project can be run either directly from UE 5.3.2, after cloning the repository and building the binaries, or from the latest build that can be downloaded from the Releases section.
 
 ### How to play it
 * **A and D** keys to move left and right
