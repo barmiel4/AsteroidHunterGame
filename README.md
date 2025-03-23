@@ -3,7 +3,7 @@
 ## Idea Origin
 The project is a severe upgrade of the tutorial from the book. Later it was used during the Game Developement workshops in 2020 that I hosted in my High School, to teach students the basics of game developement.  
 
-Number of mechanics were added, such as
+Number of mechanics were added, such as:
 * Smoother player's ship movement
 * Directional hit reactions
 * Astroid destuction
@@ -19,7 +19,7 @@ The following project is a game inspired by _Asteroids_ and _Space Invaders_ wit
 
 ### Gameplay
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/10a67392-0c61-4a2f-a1fd-2aacb016fb45" width="800"><br>
+  <img src="https://github.com/user-attachments/assets/10a67392-0c61-4a2f-a1fd-2aacb016fb45" width="800">
 </p>
 
 ## Game Features
